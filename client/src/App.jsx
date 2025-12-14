@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Navigation from "./components/Navigation";
 import HeroSection from "./components/HeroSection";
 import Home from "./components/Home";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+
+        <Footer />
       </BrowserRouter>
     </>
   )

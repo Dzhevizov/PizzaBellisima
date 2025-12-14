@@ -1,4 +1,5 @@
 import ProductCard from "../components/ProductCard";
+import Navbar from "./Navbar";
 
 const products = [
   { id: 1, name: "Маргарита", description: "Класическа пица с домати и моцарела", price: 8.50, imageUrl: "https://via.placeholder.com/150" },
@@ -9,8 +10,12 @@ const products = [
 
 export default function Catalog() {
   return (
-    <div className="grid grid-cols-2 gap-4 p-6">
-      {products.map(p => <ProductCard key={p.id} product={p} />)}
-    </div>
+    <>
+        <Navbar />
+        <div className="grid grid-cols-2 gap-4 p-6">
+            {products.map(p => <ProductCard key={p.id} product={p} />)}
+        </div>
+    </>
+    
   );
 }
