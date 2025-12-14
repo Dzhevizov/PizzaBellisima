@@ -1,5 +1,4 @@
 import ProductCard from "../components/ProductCard";
-import Navbar from "./Navbar";
 
 const products = [
   {
@@ -48,24 +47,28 @@ const products = [
   },
 ]
 
-export default function Catalog() {
+export default function HotOffers() {
   return (
+    <section className="bg-gray-50 py-12">
+      <h2 className="text-center text-3xl font-bold text-red-600 sm:text-4xl">
+        Нашите горещи оферти
+      </h2>
+      <p className="mt-2 text-center text-gray-600">
+        Специални предложения за дома и офиса
+      </p>
 
-    <>
-        <Navbar />
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6">
+        {products.map(p => <ProductCard key={p.id} product={p} />)}
+      </div>
 
-        <div className="bg-white">
-            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900">Италиански пици</h2>
-
-                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-                </div>
-            </div>
-        </div>
-    </>
-    
-  )
+      <div className="mt-8 flex justify-center">
+        <a
+          href="/catalog"
+          className="rounded-md bg-red-600 px-6 py-3 text-lg font-semibold text-white shadow hover:bg-red-500"
+        >
+          Виж всички продукти
+        </a>
+      </div>
+    </section>
+  );
 }
