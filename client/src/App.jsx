@@ -1,12 +1,11 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router";
-import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router";
 import Catalog from "./components/Catalog";
 import ProductDetails from "./components/ProductDetails";
 import MyOrders from "./components/MyOrders";
 import AdminPanel from "./components/AdminPanel";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Navigation from "./components/Navigation";
 
 
 function App() {
@@ -14,17 +13,17 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Navbar />
+        <Navigation />
 
-      <Routes>
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/:id" element={<ProductDetails />} />
-        <Route path="/orders" element={<MyOrders />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/:id" element={<ProductDetails />} />
+          <Route path="/orders" element={<MyOrders />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
