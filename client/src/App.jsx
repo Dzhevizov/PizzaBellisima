@@ -6,6 +6,8 @@ import AdminPanel from "./components/AdminPanel";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Navigation from "./components/Navigation";
+import HeroSection from "./components/HeroSection";
+import Home from "./components/Home";
 
 
 function App() {
@@ -16,6 +18,7 @@ function App() {
         <Navigation />
 
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/:id" element={<ProductDetails />} />
           <Route path="/orders" element={<MyOrders />} />
