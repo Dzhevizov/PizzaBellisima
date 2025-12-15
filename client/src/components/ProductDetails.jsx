@@ -1,4 +1,5 @@
 import { useParams } from "react-router";
+import QuantityInput from "./QuantityInput";
 
 const products = [
   {
@@ -52,13 +53,7 @@ export default function ProductDetails() {
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
               Количество за {product.name}
             </label>
-            <input
-              id="quantity"
-              type="number"
-              defaultValue={1}
-              min={1}
-              className="mt-2 w-24 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-            />
+            <QuantityInput />
           </div>
 
           <button
