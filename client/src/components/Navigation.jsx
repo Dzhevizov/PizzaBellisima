@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 const navigation = {
   pages: [
     { name: 'Каталог', to: '/catalog' },
-    { name: 'Админ панел', to: '/admin' },
+    { name: 'Профил', to: '/profile' },
     { name: 'Моите поръчки', to: '/orders' },
   ],
 }
