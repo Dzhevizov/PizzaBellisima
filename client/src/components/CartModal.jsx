@@ -5,18 +5,26 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 
 const initialProducts = [
-  { id: 1, name: "Маргарита", description: "Класическа пица с домати и моцарела", price: 8.50, quantity: 1, discount: 1.50, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Маргарита" },
+  { id: 1, name: "Маргарита", description: "Класическа пица с домати и моцарела", price: 8.50, quantity: 1, discount: 20, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Маргарита" },
   { id: 2, name: "Пеперони", description: "Пица с пикантно пеперони", price: 9.90, quantity: 2, discount: 0, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Пеперони" },
 ];
+
+const LEV_TO_EUR = 1.95583;
 
 export default function CartModal({ open, setOpen }) {
   const [products, setProducts] = useState(initialProducts);
 
   const subtotal = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
-  const discounts = products.reduce((sum, p) => sum + (p.discount || 0) * p.quantity, 0);
+  const discounts = products.reduce((sum, p) => {
+    const discountAmount = (p.discount || 0) / 100 * p.price * p.quantity;
+    return sum + discountAmount;
+  }, 0);
+
   const totalAfterDiscounts = subtotal - discounts;
   const deliveryFee = totalAfterDiscounts < 20 ? 4.99 : 0;
   const finalTotal = totalAfterDiscounts + deliveryFee;
+
+  const toEuro = (lev) => (lev / LEV_TO_EUR).toFixed(2);
 
   const removeProduct = (id) => {
     setProducts(products.filter((p) => p.id !== id));
@@ -71,8 +79,11 @@ export default function CartModal({ open, setOpen }) {
 
                 <div className="flex flex-col items-end justify-between">
                   <p className="text-sm font-medium text-gray-900">
-                    {(product.price * product.quantity).toFixed(2)} лв
+                    {(product.price * product.quantity).toFixed(2)} лв / {toEuro(product.price * product.quantity)} €
                   </p>
+                  {product.discount > 0 && (
+                    <p className="text-xs text-green-600">-{product.discount}%</p>
+                  )}
                   <button
                     onClick={() => removeProduct(product.id)}
                     className="mt-2 text-sm font-medium text-red-600 hover:text-red-500"
@@ -88,21 +99,21 @@ export default function CartModal({ open, setOpen }) {
           <div className="mt-6 space-y-2 text-base font-medium text-gray-900">
             <div className="flex justify-between">
               <p>Субтотал</p>
-              <p>{subtotal.toFixed(2)} лв</p>
+              <p>{subtotal.toFixed(2)} лв / {toEuro(subtotal)} €</p>
             </div>
             <div className="flex justify-between text-gray-600 text-sm">
               <p>Отстъпки</p>
-              <p>-{discounts.toFixed(2)} лв</p>
+              <p>-{discounts.toFixed(2)} лв / -{toEuro(discounts)} €</p>
             </div>
             {deliveryFee > 0 && (
               <div className="flex justify-between text-gray-600 text-sm">
                 <p>Доставка</p>
-                <p>{deliveryFee.toFixed(2)} лв</p>
+                <p>{deliveryFee.toFixed(2)} лв / {toEuro(deliveryFee)} €</p>
               </div>
             )}
             <div className="flex justify-between text-lg font-bold">
               <p>Крайна сума</p>
-              <p>{finalTotal.toFixed(2)} лв</p>
+              <p>{finalTotal.toFixed(2)} лв / {toEuro(finalTotal)} €</p>
             </div>
           </div>
 
