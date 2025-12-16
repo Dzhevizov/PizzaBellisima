@@ -3,7 +3,7 @@ export default function ProductCard({ product }) {
     <div className="group relative">
         <div className="relative">
             <img
-                src={product.imageSrc}
+                src={product.image}
                 alt={product.imageAlt}
                 className="w-full rounded-lg object-cover shadow-lg"
             />
