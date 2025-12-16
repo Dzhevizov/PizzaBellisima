@@ -1,10 +1,11 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('http'), require('fs'), require('crypto')) :
-    typeof define === 'function' && define.amd ? define(['http', 'fs', 'crypto'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Server = factory(global.http, global.fs, global.crypto));
-}(this, (function (http, fs, crypto) { 'use strict';
+        typeof define === 'function' && define.amd ? define(['http', 'fs', 'crypto'], factory) :
+            (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Server = factory(global.http, global.fs, global.crypto));
+}(this, (function (http, fs, crypto) {
+    'use strict';
 
-    function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+    function _interopDefaultLegacy(e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
     var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
     var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
@@ -13,14 +14,14 @@
     class ServiceError extends Error {
         constructor(message = 'Service Error') {
             super(message);
-            this.name = 'ServiceError'; 
+            this.name = 'ServiceError';
         }
     }
 
     class NotFoundError extends ServiceError {
         constructor(message = 'Resource not found') {
             super(message);
-            this.name = 'NotFoundError'; 
+            this.name = 'NotFoundError';
             this.status = 404;
         }
     }
@@ -28,7 +29,7 @@
     class RequestError extends ServiceError {
         constructor(message = 'Request error') {
             super(message);
-            this.name = 'RequestError'; 
+            this.name = 'RequestError';
             this.status = 400;
         }
     }
@@ -36,7 +37,7 @@
     class ConflictError extends ServiceError {
         constructor(message = 'Resource conflict') {
             super(message);
-            this.name = 'ConflictError'; 
+            this.name = 'ConflictError';
             this.status = 409;
         }
     }
@@ -44,7 +45,7 @@
     class AuthorizationError extends ServiceError {
         constructor(message = 'Unauthorized') {
             super(message);
-            this.name = 'AuthorizationError'; 
+            this.name = 'AuthorizationError';
             this.status = 401;
         }
     }
@@ -52,7 +53,7 @@
     class CredentialError extends ServiceError {
         constructor(message = 'Forbidden') {
             super(message);
-            this.name = 'CredentialError'; 
+            this.name = 'CredentialError';
             this.status = 403;
         }
     }
@@ -93,7 +94,7 @@
             // NOTE: the OPTIONS method results in undefined result and also it never processes plugins - keep this in mind
             if (method == 'OPTIONS') {
                 Object.assign(headers, {
-                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
                     'Access-Control-Allow-Credentials': false,
                     'Access-Control-Max-Age': '86400',
                     'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-Authorization, X-Admin'
@@ -520,7 +521,6 @@
         let responseData;
 
         try {
-            console.log(query.where);
             if (query.where) {
                 responseData = context.storage.get(context.params.collection).filter(parseWhere(query.where));
             } else if (context.params.collection) {
@@ -557,8 +557,8 @@
             if (query.pageSize) {
                 responseData = responseData.slice(0, pageSize);
             }
-    		
-    		if (query.distinct) {
+
+            if (query.distinct) {
                 const props = query.distinct.split(',').filter(p => p != '');
                 responseData = Object.values(responseData.reduce((distinct, c) => {
                     const key = props.map(p => c[p]).join('::');
@@ -794,7 +794,7 @@
     }
 
     function onRequest(context, tokens, query, body) {
-        Object.entries(body).forEach(([k,v]) => {
+        Object.entries(body).forEach(([k, v]) => {
             console.log(`${k} ${v ? 'enabled' : 'disabled'}`);
             context.util[k] = v;
         });
@@ -932,7 +932,7 @@
          * @param {Object} data Value to store. Shallow merge will be performed!
          * @return {Object} Updated entry.
          */
-         function merge(collection, id, data) {
+        function merge(collection, id, data) {
             if (!collections.has(collection)) {
                 throw new ReferenceError('Collection does not exist: ' + collection);
             }
@@ -1317,44 +1317,339 @@
 
     var rules = initPlugin$3;
 
+    const ROLE = {
+        CLIENT: "client",   // стандартен потребител, който прави поръчки
+        ADMIN: "admin"      // администратор, който управлява системата
+    };
+
+    const CATEGORY = {
+        PIZZA: "pizza",
+        PASTA: "pasta",
+        RISOTTO: "risotto",
+        DESSERT: "dessert",
+        DRINK: "drink"
+    };
+
+    const ORDER_STATUS = {
+        PENDING: "pending",        // поръчката е направена, чака обработка
+        IN_DELIVERY: "in delivery",// поръчката е в процес на доставка
+        COMPLETED: "completed",    // поръчката е доставена успешно
+        CANCELLED: "cancelled"     // поръчката е отказана
+    };
+
+
     var identity = "email";
     var protectedData = {
-    	users: {
-    		"35c62d76-8152-4626-8712-eeb96381bea8": {
-    			email: "peter@abv.bg",
-    			username: "Peter",
-    			hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
-    		},
-    		"847ec027-f659-4086-8032-5173e2f9c93a": {
-    			email: "george@abv.bg",
-    			username: "George",
-    			hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
-    		},
-    		"60f0cf0b-34b0-4abd-9769-8c42f830dffc": {
-    			email: "admin@abv.bg",
-    			username: "Admin",
-    			hashedPassword: "fac7060c3e17e6f151f247eacb2cd5ae80b8c36aedb8764e18a41bbdc16aa302"
-    		}
-    	},
-    	sessions: {
-    	}
+        users: {
+        "35c62d76-8152-4626-8712-eeb96381bea8": {
+            _id: "35c62d76-8152-4626-8712-eeb96381bea8",
+            email: "peter@abv.bg",
+            hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1",
+            username: "peter88",
+            firstName: "Peter",
+            lastName: "Petrov",
+            address: "ул. Христо Ботев 12",
+            city: "Варна",
+            phone: "+359888123456",
+            notes: "Предпочита доставка вечер след 18:00",
+            registryDate: "2025-10-01",
+            role: ROLE.CLIENT
+        },
+        "847ec027-f659-4086-8032-5173e2f9c93a": {
+            _id: "847ec027-f659-4086-8032-5173e2f9c93a",
+            email: "john@abv.bg",
+            hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1",
+            username: "johnny",
+            firstName: "John",
+            lastName: "Ivanov",
+            address: "бул. Сливница 45",
+            city: "София",
+            phone: "+359887654321",
+            notes: "Обича пикантни пици",
+            registryDate: "2025-10-15",
+            role: ROLE.CLIENT
+        },
+        "a12bc345-d678-9012-ef34-56789ghijklm": {
+            _id: "a12bc345-d678-9012-ef34-56789ghijklm",
+            email: "admin@pizza.bg",
+            hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1",
+            username: "adminMaster",
+            firstName: "Admin",
+            lastName: "User",
+            address: "ул. Генерал Столетов 1",
+            city: "Варна",
+            phone: "+359886111222",
+            notes: "Администраторски акаунт",
+            registryDate: "2025-09-01",
+            role: ROLE.ADMIN
+        }
+        },
+        sessions: {
+        }
     };
-    var seedData = {};
+    var seedData = {
+        
+        products: {
+            // --- Пица ---
+            "prod-001": {
+                _id: "prod-001",
+                name: "Маргарита",
+                category: CATEGORY.PIZZA,
+                prize: 8.50,
+                discount: 0,
+                size: "32 см",
+                description: "Класическа италианска пица с доматен сос и моцарела.",
+                ingredients: ["доматен сос", "моцарела", "босилек"],
+                image: "/images/margarita.jpg"
+            },
+            "prod-002": {
+                _id: "prod-002",
+                name: "Пеперони",
+                category: CATEGORY.PIZZA,
+                prize: 9.90,
+                discount: 10,
+                size: "32 см",
+                description: "Пица с пикантно пеперони и разтопена моцарела.",
+                ingredients: ["доматен сос", "моцарела", "пеперони"],
+                image: "/images/pepperoni.jpg"
+            },
+            "prod-003": {
+                _id: "prod-003",
+                name: "Капричоза",
+                category: CATEGORY.PIZZA,
+                prize: 11.50,
+                discount: 0,
+                size: "32 см",
+                description: "Богата пица с шунка, гъби и артишок.",
+                ingredients: ["доматен сос", "моцарела", "шунка", "гъби", "артишок", "маслини"],
+                image: "/images/capricciosa.jpg"
+            },
+            "prod-004": {
+                _id: "prod-004",
+                name: "Четири сирена",
+                category: CATEGORY.PIZZA,
+                prize: 12.00,
+                discount: 15,
+                size: "32 см",
+                description: "Ароматна пица с комбинация от четири вида сирена.",
+                ingredients: ["доматен сос", "моцарела", "горгонзола", "пармезан", "ементал"],
+                image: "/images/quattro-formaggi.jpg"
+            },
+            // --- Паста и ризото ---
+            "prod-005": {
+                _id: "prod-005",
+                name: "Паста Болонезе",
+                category: CATEGORY.PASTA,
+                prize: 10.50,
+                discount: 0,
+                size: "350 г",
+                description: "Класическа паста със сос Болонезе от телешко месо и домати.",
+                ingredients: ["спагети", "телешко", "доматен сос", "лук", "моркови", "пармезан"],
+                image: "/images/pasta-bolognese.jpg"
+            },
+            "prod-006": {
+                _id: "prod-006",
+                name: "Паста Карбонара",
+                category: CATEGORY.PASTA,
+                prize: 11.00,
+                discount: 5,
+                size: "350 г",
+                description: "Паста със сос от яйца, бекон и пармезан.",
+                ingredients: ["спагети", "бекон", "яйца", "пармезан", "черен пипер"],
+                image: "/images/pasta-carbonara.jpg"
+            },
+            "prod-007": {
+                _id: "prod-007",
+                name: "Ризото с гъби",
+                category: CATEGORY.RISOTTO,
+                prize: 12.50,
+                discount: 0,
+                size: "300 г",
+                description: "Кремообразно ризото с ароматни горски гъби.",
+                ingredients: ["ориз арборио", "гъби", "пармезан", "масло", "бяло вино"],
+                image: "/images/risotto-mushrooms.jpg"
+            },
+            "prod-008": {
+                _id: "prod-008",
+                name: "Ризото с морски дарове",
+                category: CATEGORY.RISOTTO,
+                prize: 14.00,
+                discount: 10,
+                size: "300 г",
+                description: "Ризото с калмари, скариди и миди, овкусено с бяло вино.",
+                ingredients: ["ориз арборио", "скариди", "миди", "калмари", "чесън", "бяло вино"],
+                image: "/images/risotto-seafood.jpg"
+            },
+
+            // --- Десерти ---
+            "prod-009": {
+                _id: "prod-009",
+                name: "Тирамису",
+                category: CATEGORY.DESSERT,
+                prize: 6.50,
+                discount: 0,
+                size: "150 г",
+                description: "Италиански десерт с бишкоти, маскарпоне и кафе.",
+                ingredients: ["бишкоти", "маскарпоне", "кафе", "какао", "яйца"],
+                image: "/images/tiramisu.jpg"
+            },
+            "prod-010": {
+                _id: "prod-010",
+                name: "Пана Кота",
+                category: CATEGORY.DESSERT,
+                prize: 5.90,
+                discount: 0,
+                size: "150 г",
+                description: "Кремообразен десерт със сметана и ванилия.",
+                ingredients: ["сметана", "захар", "ванилия", "желатин", "плодово кули"],
+                image: "/images/panna-cotta.jpg"
+            },
+            "prod-011": {
+                _id: "prod-011",
+                name: "Шоколадово суфле",
+                category: CATEGORY.DESSERT,
+                prize: 7.20,
+                discount: 5,
+                size: "150 г",
+                description: "Топъл десерт с течен шоколадов център.",
+                ingredients: ["шоколад", "яйца", "масло", "захар", "брашно"],
+                image: "/images/chocolate-souffle.jpg"
+            },
+
+            // --- Напитки ---
+            "prod-012": {
+                _id: "prod-012",
+                name: "Кока Кола",
+                category: CATEGORY.DRINK,
+                prize: 2.50,
+                discount: 0,
+                size: "500 мл",
+                description: "Газирана напитка.",
+                ingredients: ["вода", "захар", "кафеин", "аромати"],
+                image: "/images/coca-cola.jpg"
+            },
+            "prod-013": {
+                _id: "prod-013",
+                name: "Минерална вода",
+                category: CATEGORY.DRINK,
+                prize: 1.50,
+                discount: 0,
+                size: "500 мл",
+                description: "Минерална вода, подходяща за всяко хранене.",
+                ingredients: ["вода"],
+                image: "/images/mineral-water.jpg"
+            },
+            "prod-014": {
+                _id: "prod-014",
+                name: "Червено вино",
+                category: CATEGORY.DRINK,
+                prize: 12.00,
+                discount: 0,
+                size: "750 мл",
+                description: "Бутилка червено вино, подходящо за пица и паста.",
+                ingredients: ["грозде"],
+                image: "/images/red-wine.jpg"
+            }
+        },
+
+        orders: {
+            "ord-101": {
+                _id: "ord-101",
+                items: [
+                { name: "Маргарита", quantity: 2, price: 17.00 }, // 2 x 8.50
+                { name: "Кока Кола", quantity: 2, price: 5.00 }   // 2 x 2.50
+                ],
+                subtotal: 22.00,
+                discounts: 0,
+                total: 22.00,
+                date: "2025-11-20",
+                clientId: "35c62d76-8152-4626-8712-eeb96381bea8",
+                status: ORDER_STATUS.COMPLETED
+            },
+            "ord-115": {
+                _id: "ord-115",
+                items: [
+                { name: "Пеперони", quantity: 1, price: 8.91 }, // 9.90 - 10% discount
+                { name: "Минерална вода", quantity: 1, price: 1.50 }
+                ],
+                subtotal: 11.40,
+                discounts: 1.00,
+                total: 10.40,
+                date: "2025-12-05",
+                clientId: "35c62d76-8152-4626-8712-eeb96381bea8",
+                status: ORDER_STATUS.PENDING
+            },
+            "ord-120": {
+                _id: "ord-120",
+                items: [
+                { name: "Капричоза", quantity: 1, price: 11.50 },
+                { name: "Червено вино", quantity: 1, price: 12.00 }
+                ],
+                subtotal: 23.50,
+                discounts: 0,
+                total: 23.50,
+                date: "2025-12-10",
+                clientId: "847ec027-f659-4086-8032-5173e2f9c93a",
+                status: ORDER_STATUS.COMPLETED
+            },
+            "ord-200": {
+                _id: "ord-200",
+                items: [
+                { name: "Ризото с морски дарове", quantity: 2, price: 25.20 }, // 2 x 14.00 - 10% discount
+                { name: "Тирамису", quantity: 2, price: 13.00 }
+                ],
+                subtotal: 28.00,
+                discounts: 2.80,
+                total: 25.20,
+                date: "2025-12-15",
+                clientId: "847ec027-f659-4086-8032-5173e2f9c93a",
+                status: ORDER_STATUS.PENDING
+            },
+            "ord-300": {
+                _id: "ord-300",
+                items: [
+                { name: "Четири сирена", quantity: 1, price: 10.20 }, // 12.00 - 15% discount
+                { name: "Пана Кота", quantity: 2, price: 11.80 }      // 2 x 5.90
+                ],
+                subtotal: 23.80,
+                discounts: 1.80,
+                total: 22.00,
+                date: "2025-12-16",
+                clientId: "35c62d76-8152-4626-8712-eeb96381bea8",
+                status: ORDER_STATUS.IN_DELIVERY
+            },
+
+            "ord-400": {
+                _id: "ord-400",
+                items: [
+                { name: "Ризото с гъби", quantity: 1, price: 12.50 },
+                { name: "Шоколадово суфле", quantity: 1, price: 6.84 } // 7.20 - 5% discount
+                ],
+                subtotal: 19.70,
+                discounts: 0.36,
+                total: 19.34,
+                date: "2025-12-14",
+                clientId: "847ec027-f659-4086-8032-5173e2f9c93a",
+                status: ORDER_STATUS.CANCELLED
+            }
+        }
+
+    };
     var rules$1 = {
-    	users: {
-    		".create": false,
-    		".read": [
-    			"Owner"
-    		],
-    		".update": false,
-    		".delete": false
-    	},
+        users: {
+            ".create": false,
+            ".read": [
+                "Owner"
+            ],
+            ".update": false,
+            ".delete": false
+        }
     };
     var settings = {
-    	identity: identity,
-    	protectedData: protectedData,
-    	seedData: seedData,
-    	rules: rules$1
+        identity: identity,
+        protectedData: protectedData,
+        seedData: seedData,
+        rules: rules$1
     };
 
     const plugins = [

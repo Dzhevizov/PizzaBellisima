@@ -23,7 +23,7 @@ export default function HeroSection() {
 
             <div className="mt-10 flex items-center justify-center gap-x-6">
                 <p className="mt-8 text-2xl font-semibold text-gray-100 sm:text-3xl">
-                    на всички пици
+                    допълнителна отстъпка на всички пици
                 </p>
             </div>
 
