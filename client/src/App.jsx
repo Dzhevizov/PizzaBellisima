@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Catalog from "./components/Catalog";
 import ProductDetails from "./components/ProductDetails";
 import MyOrders from "./components/MyOrders";
-import AdminPanel from "./components/AdminPanel";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Navigation from "./components/Navigation";
@@ -10,7 +9,6 @@ import Home from "./components/Home";
 import Footer from "./components/Footer";
 import CartModal from "./components/CartModal";
 import { useState } from "react";
-import Profile from "./components/Profile";
 import ProfilePage from "./components/Profile";
 
 const products = [
