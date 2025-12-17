@@ -69,7 +69,7 @@ export default function CartModal({ open, setOpen }) {
           {/* Продукти */}
           <ul className="mt-6 divide-y divide-gray-200">
             {cart.map((product) => (
-              <li key={product._id} className="flex py-4">
+              <li key={product.id} className="flex py-4">
                 <img src={product.image} alt={product.imageAlt} className="h-20 w-20 rounded-md object-cover" />
                 <div className="ml-4 flex-1">
                   <h3 className="text-sm font-medium text-gray-900">{product.name}</h3>
@@ -78,7 +78,7 @@ export default function CartModal({ open, setOpen }) {
                   {/* Quantity controls */}
                   <div className="mt-2 flex items-center">
                     <button
-                      onClick={() => updateQuantityHandler(product._id, -1)}
+                      onClick={() => updateQuantityHandler(product.id, -1)}
                       className="px-2 py-1 rounded-l-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
                     >
                       –
@@ -87,7 +87,7 @@ export default function CartModal({ open, setOpen }) {
                       {product.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantityHandler(product._id, +1)}
+                      onClick={() => updateQuantityHandler(product.id, +1)}
                       className="px-2 py-1 rounded-r-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
                     >
                       +
@@ -103,7 +103,7 @@ export default function CartModal({ open, setOpen }) {
                     <p className="text-xs text-green-600">-{product.discount}%</p>
                   )}
                   <button
-                    onClick={() => removeProduct(product._id)}
+                    onClick={() => removeProduct(product.id)}
                     className="mt-2 text-sm font-medium text-red-600 hover:text-red-500"
                   >
                     Премахни

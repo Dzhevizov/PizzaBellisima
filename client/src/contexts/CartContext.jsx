@@ -24,14 +24,14 @@ export function CartProvider({ children }) {
   const updateQuantity = (id, delta) => {
     setCart((prev) =>
       prev.map((p) =>
-        p._id === id ? { ...p, quantity: Math.max(1, p.quantity + delta) } : p
+        p.id === id ? { ...p, quantity: Math.max(1, p.quantity + delta) } : p
       )
     );
   };
 
   // Премахване
   const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((p) => p._id !== id));
+    setCart((prev) => prev.filter((p) => p.id !== id));
   };
 
   const clearCart = () => setCart([]);
