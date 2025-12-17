@@ -8,17 +8,17 @@ export function CartProvider({ children }) {
   // Добавяне на продукт
   const addToCart = (product) => {
     setCart((prev) => {
-      const existing = prev.find((p) => p._id === product._id);
-      if (existing) {
+        const existing = prev.find((p) => p.id === product.id);
+        if (existing) {
         return prev.map((p) =>
-          p._id === product._id
+            p.id === product.id
             ? { ...p, quantity: p.quantity + product.quantity }
             : p
         );
-      }
-      return [...prev, product];
+        }
+        return [...prev, product];
     });
-  };
+    };
 
   // Промяна на количество
   const updateQuantity = (id, delta) => {

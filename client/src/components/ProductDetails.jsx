@@ -28,17 +28,18 @@ export default function ProductDetails() {
     };
 
     const handleAdd = () => {
-        addToCart({
-        id: id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        quantity: 1,
-        discount: product.discount || 0,
-        image: product.image,
-        imageAlt: product.imageAlt,
-        });
-    };
+  addToCart({
+    id: product._id,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    quantity, 
+    discount: product.discount || 0,
+    image: product.image,
+    imageAlt: product.imageAlt,
+  });
+};
+
 
     return (
     <div className="bg-white">
