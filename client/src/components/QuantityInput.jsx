@@ -1,22 +1,14 @@
-import { useState } from "react";
-
-export default function QuantityInput({ initial = 1 }) {
-    const [quantity, setQuantity] = useState(initial);
-
-    const decrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
-    };
-
-    const increase = () => {
-    setQuantity(quantity + 1);
-    };
-
+export default function QuantityInput({ 
+    quantity,
+    onDecrease,
+    onIncrease 
+}) {
     return (
     <div className="mt-2 flex items-center">
         {/* Минус бутон */}
         <button
         type="button"
-        onClick={decrease}
+        onClick={onDecrease}
         className="px-3 py-1 rounded-l-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
         >
         –
@@ -33,7 +25,7 @@ export default function QuantityInput({ initial = 1 }) {
         {/* Плюс бутон */}
         <button
         type="button"
-        onClick={increase}
+        onClick={onIncrease}
         className="px-3 py-1 rounded-r-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
         >
         +

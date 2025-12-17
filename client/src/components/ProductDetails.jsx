@@ -2,10 +2,12 @@ import { useParams } from "react-router";
 import QuantityInput from "./QuantityInput";
 import { useProducts } from "../contexts/ProductContext";
 import formatPrice from "../utils/FormatPriceUtil";
+import { useState } from "react";
 
 export default function ProductDetails() {
     const { id } = useParams();
     const { products, loading, error } = useProducts();
+    const [quantity, setQuantity] = useState(1);
 
     if (loading) return <p>Зареждане...</p>;
     if (error) return <p className="text-red-600">{error}</p>;
@@ -13,6 +15,14 @@ export default function ProductDetails() {
     const product = products.find((p) => p._id === id);
 
     if (!product) return <p>Продуктът не е намерен.</p>;
+
+    const decreaseQuantityHandle = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
+
+    const increaseQuantityHandle = () => {
+        setQuantity(quantity + 1);
+    };
 
     return (
     <div className="bg-white">
@@ -45,7 +55,7 @@ export default function ProductDetails() {
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
                 Количество за {product.name}
             </label>
-            <QuantityInput />
+            <QuantityInput quantity={quantity} onDecrease={decreaseQuantityHandle} onIncrease={increaseQuantityHandle}/>
             </div>
 
             <button
