@@ -8,13 +8,23 @@ export function UserProvider({ children }) {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+
   const { request } = useRequest();
 
   const registerHandler = async (username, password, extraData) => {
-    const newUser = { username, password, ...extraData };
-    const result = await request("/users/register", "POST", newUser);
-    setUser(result);
-    localStorage.setItem("user", JSON.stringify(result));
+    try {
+      // Регистрация – само в /users/register
+      const result = await request("/users/register", "POST", { email: extraData.email, password, username });
+
+      setUser(result);
+      localStorage.setItem("user", JSON.stringify(result));
+    } catch (err) {
+      if (err === "Conflict") {
+        alert("Имейлът вече е регистриран!");
+      } else {
+        alert("Грешка при регистрация: " + err);
+      }
+    }
   };
 
   const loginHandler = async (email, password) => {
@@ -37,7 +47,11 @@ export function UserProvider({ children }) {
     logoutHandler,
   };
 
-  return <AuthContext.Provider value={userContextValues}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={userContextValues}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {

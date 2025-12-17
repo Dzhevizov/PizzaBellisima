@@ -9,7 +9,6 @@ import Home from "./components/Home";
 import Footer from "./components/Footer";
 import CartModal from "./components/CartModal";
 import { useState } from "react";
-import ProfilePage from "./components/Profile";
 import { ProductsProvider } from "./contexts/ProductContext";
 
 const products = [
@@ -40,7 +39,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/catalog/:id" element={<ProductDetails />} />
             <Route path="/orders" element={<MyOrders />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<CartModal />} />

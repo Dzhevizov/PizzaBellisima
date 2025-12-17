@@ -3,23 +3,24 @@ import { useNavigate, Link } from "react-router";
 import { useAuthContext } from "../contexts/AuthContext";
 
 export default function Login() {
-  const { loginHandler } = useAuthContext();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+    const { loginHandler } = useAuthContext();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginHandler(email, password);
-      navigate("/catalog");
+        await loginHandler(email, password);
+        navigate("/catalog");
     } catch {
-      setError("Грешен имейл или парола");
+        setError("Грешен имейл или парола");
     }
-  };
+    };
 
-  return (
+
+    return (
     <div className="flex justify-center items-start py-24 bg-gray-50">
       <div className="max-w-md w-full bg-gray-100 shadow-lg rounded-lg p-8">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Вход в профила</h2>

@@ -1549,7 +1549,7 @@
                 description: "Бутилка червено вино, подходящо за пица и паста.",
                 ingredients: "грозде",
                 image: "/images/red-wine.jpg"
-            }
+            },
         },
 
         orders: {
@@ -1632,8 +1632,7 @@
                 clientId: "847ec027-f659-4086-8032-5173e2f9c93a",
                 status: ORDER_STATUS.CANCELLED
             }
-        }
-
+        },
     };
     var rules$1 = {
         users: {

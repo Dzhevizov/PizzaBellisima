@@ -17,26 +17,27 @@ export default function Register() {
   const [city, setCity] = useState("");
   const [notes, setNotes] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (password !== rePassword) {
-      alert("Паролите не съвпадат!");
-      return;
-    }
+  if (password !== rePassword) {
+    alert("Паролите не съвпадат!");
+    return;
+  }
 
-    await registerHandler(username, password, {
-      firstName,
-      lastName,
-      email,
-      phone,
-      address,
-      city,
-      notes,
-    });
+  await registerHandler(username, password, {
+    firstName,
+    lastName,
+    email,
+    phone,
+    address,
+    city,
+    notes,
+  });
 
-    navigate("/catalog");
-  };
+  navigate("/catalog");
+};
+
 
   return (
     <div className="flex justify-center items-start py-24 bg-gray-50">
