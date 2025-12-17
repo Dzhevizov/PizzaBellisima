@@ -10,39 +10,36 @@ import Footer from "./components/Footer";
 import CartModal from "./components/CartModal";
 import { useState } from "react";
 import { ProductsProvider } from "./contexts/ProductContext";
-
-const products = [
-  { id: 1, name: "Маргарита", description: "Класическа пица", price: 8.50, quantity: 1, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Маргарита" },
-  // ...
-];
-
+import { useCart } from "./contexts/CartContext";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
+
+  const { cart } = useCart();
   
   return (
     <>
       <BrowserRouter>
-        <Navigation onCartClick={() => setCartOpen(true)} cartCount={products.length}/>
-        <CartModal open={cartOpen} setOpen={setCartOpen} products={products} />
+        <Navigation onCartClick={() => setCartOpen(true)} cartCount={cart.length}/>
+        <CartModal open={cartOpen} setOpen={setCartOpen} />
 
         <ProductsProvider>
-          <Routes>
-            <Route path='/catalog' >
-              <Route index element={<Catalog category='pizza' title='Италиански пици'/>}/>
-              <Route path='pasta' element={<Catalog category='pasta' title='Паста'/>}/>
-              <Route path='risotto' element={<Catalog category='risotto' title='Ризото'/>}/>
-              <Route path='dessert' element={<Catalog category='dessert' title='Десерти'/>}/>
-              <Route path='drink' element={<Catalog category='drink' title='Напитки'/>}/>
-            </Route>
+            <Routes>
+              <Route path='/catalog' >
+                <Route index element={<Catalog category='pizza' title='Италиански пици'/>}/>
+                <Route path='pasta' element={<Catalog category='pasta' title='Паста'/>}/>
+                <Route path='risotto' element={<Catalog category='risotto' title='Ризото'/>}/>
+                <Route path='dessert' element={<Catalog category='dessert' title='Десерти'/>}/>
+                <Route path='drink' element={<Catalog category='drink' title='Напитки'/>}/>
+              </Route>
 
-            <Route path="/" element={<Home />} />
-            <Route path="/catalog/:id" element={<ProductDetails />} />
-            <Route path="/orders" element={<MyOrders />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/cart" element={<CartModal />} />
-          </Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/catalog/:id" element={<ProductDetails />} />
+              <Route path="/orders" element={<MyOrders />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/cart" element={<CartModal />} />
+            </Routes>
         </ProductsProvider>
 
         <Footer />

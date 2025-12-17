@@ -3,11 +3,14 @@ import QuantityInput from "./QuantityInput";
 import { useProducts } from "../contexts/ProductContext";
 import formatPrice from "../utils/FormatPriceUtil";
 import { useState } from "react";
+import { useCart } from "../contexts/CartContext";
 
 export default function ProductDetails() {
     const { id } = useParams();
     const { products, loading, error } = useProducts();
     const [quantity, setQuantity] = useState(1);
+
+    const { addToCart } = useCart();
 
     if (loading) return <p>Зареждане...</p>;
     if (error) return <p className="text-red-600">{error}</p>;
@@ -22,6 +25,19 @@ export default function ProductDetails() {
 
     const increaseQuantityHandle = () => {
         setQuantity(quantity + 1);
+    };
+
+    const handleAdd = () => {
+        addToCart({
+        id: id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        quantity: 1,
+        discount: product.discount || 0,
+        image: product.image,
+        imageAlt: product.imageAlt,
+        });
     };
 
     return (
@@ -59,10 +75,11 @@ export default function ProductDetails() {
             </div>
 
             <button
-            type="button"
-            className="mt-6 w-full rounded-md bg-red-600 px-6 py-3 text-lg font-semibold text-white shadow hover:bg-red-500"
+                onClick={handleAdd}
+                type="button"
+                className="mt-6 w-full rounded-md bg-red-600 px-6 py-3 text-lg font-semibold text-white shadow hover:bg-red-500"
             >
-            Добавяне в количката
+                Добавяне в количката
             </button>
 
             <p className="mt-6 text-sm text-gray-500">Категория: {product.category}</p>

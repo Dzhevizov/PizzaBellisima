@@ -1,21 +1,18 @@
-'use client'
-
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
-
-const initialProducts = [
-  { id: 1, name: "Маргарита", description: "Класическа пица с домати и моцарела", price: 8.50, quantity: 1, discount: 20, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Маргарита" },
-  { id: 2, name: "Пеперони", description: "Пица с пикантно пеперони", price: 9.90, quantity: 2, discount: 0, imageSrc: "https://www.creativefabrica.com/wp-content/uploads/2021/03/02/Remora-Camilla-Fonts-8452894-4-312x208.jpg", imageAlt: "Пица Пеперони" },
-];
+import { useAuthContext } from "../contexts/AuthContext";
+import useRequest from "../hooks/useRequest";
+import { useCart } from "../contexts/CartContext";
 
 const LEV_TO_EUR = 1.95583;
 
 export default function CartModal({ open, setOpen }) {
-  const [products, setProducts] = useState(initialProducts);
+  const { cart, updateQuantity, removeFromCart } = useCart();
 
-  const subtotal = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
-  const discounts = products.reduce((sum, p) => {
+  const { request } = useRequest();
+
+  const subtotal = cart.reduce((sum, p) => sum + p.price * p.quantity, 0);
+  const discounts = cart.reduce((sum, p) => {
     const discountAmount = (p.discount || 0) / 100 * p.price * p.quantity;
     return sum + discountAmount;
   }, 0);
@@ -27,13 +24,34 @@ export default function CartModal({ open, setOpen }) {
   const toEuro = (lev) => (lev / LEV_TO_EUR).toFixed(2);
 
   const removeProduct = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
+    removeFromCart(id);
   };
 
-  const updateQuantity = (id, delta) => {
-    setProducts(products.map((p) =>
-      p.id === id ? { ...p, quantity: Math.max(1, p.quantity + delta) } : p
-    ));
+  const updateQuantityHandler = (id, delta) => {
+    updateQuantity(id, delta)
+  };
+
+  const { user } = useAuthContext();
+
+  const createOrder = async () => {
+    const order = {
+      _id: "ord-" + Date.now(),
+      items: cart.map(p => ({
+        name: p.name,
+        quantity: p.quantity,
+        price: p.price
+      })),
+      subtotal,
+      discounts,
+      total: finalTotal,
+      date: new Date().toISOString().split("T")[0],
+      clientId: user?._id || "guest",
+      status: "PENDING"
+    };
+
+    console.log("Order object:", order);
+
+    await request("/data/orders", "POST", order, { accessToken: user?.accessToken });
   };
 
   return (
@@ -50,9 +68,9 @@ export default function CartModal({ open, setOpen }) {
 
           {/* Продукти */}
           <ul className="mt-6 divide-y divide-gray-200">
-            {products.map((product) => (
-              <li key={product.id} className="flex py-4">
-                <img src={product.imageSrc} alt={product.imageAlt} className="h-20 w-20 rounded-md object-cover" />
+            {cart.map((product) => (
+              <li key={product._id} className="flex py-4">
+                <img src={product.image} alt={product.imageAlt} className="h-20 w-20 rounded-md object-cover" />
                 <div className="ml-4 flex-1">
                   <h3 className="text-sm font-medium text-gray-900">{product.name}</h3>
                   <p className="text-sm text-gray-500">{product.description}</p>
@@ -60,7 +78,7 @@ export default function CartModal({ open, setOpen }) {
                   {/* Quantity controls */}
                   <div className="mt-2 flex items-center">
                     <button
-                      onClick={() => updateQuantity(product.id, -1)}
+                      onClick={() => updateQuantityHandler(product._id, -1)}
                       className="px-2 py-1 rounded-l-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
                     >
                       –
@@ -69,7 +87,7 @@ export default function CartModal({ open, setOpen }) {
                       {product.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(product.id, +1)}
+                      onClick={() => updateQuantityHandler(product._id, +1)}
                       className="px-2 py-1 rounded-r-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
                     >
                       +
@@ -85,7 +103,7 @@ export default function CartModal({ open, setOpen }) {
                     <p className="text-xs text-green-600">-{product.discount}%</p>
                   )}
                   <button
-                    onClick={() => removeProduct(product.id)}
+                    onClick={() => removeProduct(product._id)}
                     className="mt-2 text-sm font-medium text-red-600 hover:text-red-500"
                   >
                     Премахни
@@ -125,7 +143,10 @@ export default function CartModal({ open, setOpen }) {
           </div>
           <div className="mt-4 text-center text-sm">
             <button
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                createOrder()
+                setOpen(false)
+              }}
               className="font-medium text-red-600 hover:text-red-500"
             >
               Продължи пазаруването →
