@@ -7,7 +7,7 @@ import { useCart } from "../contexts/CartContext";
 const LEV_TO_EUR = 1.95583;
 
 export default function CartModal({ open, setOpen }) {
-  const { cart, updateQuantity, removeFromCart } = useCart();
+  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
 
   const { request } = useRequest();
 
@@ -18,7 +18,7 @@ export default function CartModal({ open, setOpen }) {
   }, 0);
 
   const totalAfterDiscounts = subtotal - discounts;
-  const deliveryFee = totalAfterDiscounts < 20 ? 4.99 : 0;
+  const deliveryFee = totalAfterDiscounts > 0 && totalAfterDiscounts < 20 ? 4.99 : 0;
   const finalTotal = totalAfterDiscounts + deliveryFee;
 
   const toEuro = (lev) => (lev / LEV_TO_EUR).toFixed(2);
@@ -34,8 +34,11 @@ export default function CartModal({ open, setOpen }) {
   const { user } = useAuthContext();
 
   const createOrder = async () => {
+    if(cart.length == 0) {
+      return;
+    }
+    
     const order = {
-      _id: "ord-" + Date.now(),
       items: cart.map(p => ({
         name: p.name,
         quantity: p.quantity,
@@ -49,9 +52,10 @@ export default function CartModal({ open, setOpen }) {
       status: "PENDING"
     };
 
-    console.log("Order object:", order);
-
     await request("/data/orders", "POST", order, { accessToken: user?.accessToken });
+
+    alert("Поръчката е създадена!");
+    clearCart();
   };
 
   return (
@@ -137,14 +141,18 @@ export default function CartModal({ open, setOpen }) {
 
           {/* Действия */}
           <div className="mt-6">
-            <button className="w-full rounded-md bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-500">
+            <button 
+              onClick={async () => {
+                await createOrder();
+                setOpen(false)
+              }}
+              className="w-full rounded-md bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-500">
               Поръчай
             </button>
           </div>
           <div className="mt-4 text-center text-sm">
             <button
               onClick={() => {
-                createOrder()
                 setOpen(false)
               }}
               className="font-medium text-red-600 hover:text-red-500"
