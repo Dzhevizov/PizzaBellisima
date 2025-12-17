@@ -1399,7 +1399,7 @@
                 discount: 0,
                 size: "32 см",
                 description: "Класическа италианска пица с доматен сос и моцарела.",
-                ingredients: ["доматен сос", "моцарела", "босилек"],
+                ingredients: "доматен сос, моцарела, босилек",
                 image: "/images/margarita.jpg"
             },
             "prod-002": {
@@ -1410,7 +1410,7 @@
                 discount: 10,
                 size: "32 см",
                 description: "Пица с пикантно пеперони и разтопена моцарела.",
-                ingredients: ["доматен сос", "моцарела", "пеперони"],
+                ingredients: "доматен сос, моцарела, пеперони",
                 image: "/images/pepperoni.jpg"
             },
             "prod-003": {
@@ -1421,7 +1421,7 @@
                 discount: 0,
                 size: "32 см",
                 description: "Богата пица с шунка, гъби и артишок.",
-                ingredients: ["доматен сос", "моцарела", "шунка", "гъби", "артишок", "маслини"],
+                ingredients: "доматен сос, моцарела, шунка, гъби, артишок, маслини",
                 image: "/images/capricciosa.jpg"
             },
             "prod-004": {
@@ -1432,7 +1432,7 @@
                 discount: 15,
                 size: "32 см",
                 description: "Ароматна пица с комбинация от четири вида сирена.",
-                ingredients: ["доматен сос", "моцарела", "горгонзола", "пармезан", "ементал"],
+                ingredients: "доматен сос, моцарела, горгонзола, пармезан, ементал",
                 image: "/images/quattro-formaggi.jpg"
             },
             // --- Паста и ризото ---
@@ -1444,7 +1444,7 @@
                 discount: 0,
                 size: "350 г",
                 description: "Класическа паста със сос Болонезе от телешко месо и домати.",
-                ingredients: ["спагети", "телешко", "доматен сос", "лук", "моркови", "пармезан"],
+                ingredients: "спагети, телешко, доматен сос, лук, моркови, пармезан",
                 image: "/images/pasta-bolognese.jpg"
             },
             "prod-006": {
@@ -1455,7 +1455,7 @@
                 discount: 5,
                 size: "350 г",
                 description: "Паста със сос от яйца, бекон и пармезан.",
-                ingredients: ["спагети", "бекон", "яйца", "пармезан", "черен пипер"],
+                ingredients: "спагети, бекон, яйца, пармезан, черен пипер",
                 image: "/images/pasta-carbonara.jpg"
             },
             "prod-007": {
@@ -1466,7 +1466,7 @@
                 discount: 0,
                 size: "300 г",
                 description: "Кремообразно ризото с ароматни горски гъби.",
-                ingredients: ["ориз арборио", "гъби", "пармезан", "масло", "бяло вино"],
+                ingredients: "ориз арборио, гъби, пармезан, масло, бяло вино",
                 image: "/images/risotto-mushrooms.jpg"
             },
             "prod-008": {
@@ -1477,7 +1477,7 @@
                 discount: 10,
                 size: "300 г",
                 description: "Ризото с калмари, скариди и миди, овкусено с бяло вино.",
-                ingredients: ["ориз арборио", "скариди", "миди", "калмари", "чесън", "бяло вино"],
+                ingredients: "ориз арборио, скариди, миди, калмари, чесън, бяло вино",
                 image: "/images/risotto-seafood.jpg"
             },
 
@@ -1490,7 +1490,7 @@
                 discount: 0,
                 size: "150 г",
                 description: "Италиански десерт с бишкоти, маскарпоне и кафе.",
-                ingredients: ["бишкоти", "маскарпоне", "кафе", "какао", "яйца"],
+                ingredients: "бишкоти, маскарпоне, кафе, какао, яйца",
                 image: "/images/tiramisu.jpg"
             },
             "prod-010": {
@@ -1501,7 +1501,7 @@
                 discount: 0,
                 size: "150 г",
                 description: "Кремообразен десерт със сметана и ванилия.",
-                ingredients: ["сметана", "захар", "ванилия", "желатин", "плодово кули"],
+                ingredients: "сметана, захар, ванилия, желатин, плодово кули",
                 image: "/images/panna-cotta.jpg"
             },
             "prod-011": {
@@ -1512,7 +1512,7 @@
                 discount: 5,
                 size: "150 г",
                 description: "Топъл десерт с течен шоколадов център.",
-                ingredients: ["шоколад", "яйца", "масло", "захар", "брашно"],
+                ingredients: "шоколад, яйца, масло, захар, брашно",
                 image: "/images/chocolate-souffle.jpg"
             },
 
@@ -1525,7 +1525,7 @@
                 discount: 0,
                 size: "500 мл",
                 description: "Газирана напитка.",
-                ingredients: ["вода", "захар", "кафеин", "аромати"],
+                ingredients: "вода, захар, кофеин, аромати",
                 image: "/images/coca-cola.jpg"
             },
             "prod-013": {
@@ -1536,18 +1536,18 @@
                 discount: 0,
                 size: "500 мл",
                 description: "Минерална вода, подходяща за всяко хранене.",
-                ingredients: ["вода"],
+                ingredients: "вода",
                 image: "/images/mineral-water.jpg"
             },
             "prod-014": {
                 _id: "prod-014",
                 name: "Червено вино",
                 category: CATEGORY.DRINK,
-                prize: 12.00,
+                price: 12.00,
                 discount: 0,
                 size: "750 мл",
                 description: "Бутилка червено вино, подходящо за пица и паста.",
-                ingredients: ["грозде"],
+                ingredients: "грозде",
                 image: "/images/red-wine.jpg"
             }
         },

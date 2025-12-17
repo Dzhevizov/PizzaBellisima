@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import formatPrice from "../utils/FormatPriceUtil";
 
 export default function ProductCard({ product }) {
   return (
@@ -6,7 +7,7 @@ export default function ProductCard({ product }) {
       <div className="relative">
         <img
           src={product.image}
-          alt={product.imageAlt}
+          alt={product.name}
           className="w-full h-40 object-cover"
         />
 
@@ -30,7 +31,7 @@ export default function ProductCard({ product }) {
             {product.description}
           </p>
         </div>
-        <p className="text-sm font-medium text-gray-900">{product.price} лв.</p>
+        <p className="text-sm font-medium text-gray-900">{formatPrice(product.price)}</p>
       </div>
     </div>
   );
