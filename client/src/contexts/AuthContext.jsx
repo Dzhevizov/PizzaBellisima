@@ -1,36 +1,47 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+import useRequest from "../hooks/useRequest";
 
 export const AuthContext = createContext();
 
-const hardcodedUsers = [
-  { username: "admin", password: "1234", role: "admin" },
-  { username: "client", password: "1234", role: "client" },
-];
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const { request } = useRequest();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-
-  const login = (username, password) => {
-    const found = hardcodedUsers.find(
-      u => u.username === username && u.password === password
-    );
-    if (found) {
-      setUser(found);
-      return true;
-    }
-    return false;
+  const registerHandler = async (username, password, extraData) => {
+    const newUser = { username, password, ...extraData };
+    const result = await request("/users/register", "POST", newUser);
+    setUser(result);
+    localStorage.setItem("user", JSON.stringify(result));
   };
 
-  const register = (username, password) => {
-    hardcodedUsers.push({ username, password, role: "client" });
-    setUser({ username, password, role: "client" });
+  const loginHandler = async (email, password) => {
+    const result = await request("/users/login", "POST", { email, password });
+    setUser(result);
+    localStorage.setItem("user", JSON.stringify(result));
   };
 
-  const logout = () => setUser(null);
+  const logoutHandler = async () => {
+    await request("/users/logout", "GET", null, { accessToken: user?.accessToken });
+    setUser(null);
+    localStorage.removeItem("user");
+  };
 
-  return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const userContextValues = {
+    user,
+    isAuthenticated: !!user?.accessToken,
+    registerHandler,
+    loginHandler,
+    logoutHandler,
+  };
+
+  return <AuthContext.Provider value={userContextValues}>{children}</AuthContext.Provider>;
 }
+
+export function useAuthContext() {
+  return useContext(AuthContext);
+}
+
+export default AuthContext;
