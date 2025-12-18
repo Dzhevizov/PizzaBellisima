@@ -5,13 +5,6 @@ import { Link } from 'react-router'
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
 
-const navigation = {
-  pages: [
-    { name: 'Каталог', to: '/catalog' },
-    { name: 'Моите поръчки', to: '/orders' },
-  ],
-}
-
 export default function Navigation({ onCartClick, cartCount }) {
     const { isAuthenticated, logoutHandler, user } = useAuthContext();
     const navigate = useNavigate();
@@ -20,6 +13,15 @@ export default function Navigation({ onCartClick, cartCount }) {
         await logoutHandler();
         navigate("/login");
     };
+
+    const pages = [
+    { name: "Каталог", to: "/catalog" },
+    ...(user?.role === "admin"
+      ? [{ name: "Дневни поръчки", to: "/orders" }]
+      : isAuthenticated
+      ? [{ name: "Моите поръчки", to: "/orders" }]
+      : []),
+  ];
 
     return (
         <div className="bg-white">
@@ -42,13 +44,13 @@ export default function Navigation({ onCartClick, cartCount }) {
                 {/* Navigation */}
                 <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
                     <div className="flex h-full space-x-8">
-                    {navigation.pages.map((page) => (
+                    {pages.map((page) => (
                         <Link
-                        key={page.name}
-                        to={page.to}
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                        >
-                        {page.name}
+                            key={page.name}
+                            to={page.to}
+                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                            {page.name}
                         </Link>
                     ))}
                     </div>

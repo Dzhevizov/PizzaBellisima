@@ -11,6 +11,7 @@ import CartModal from "./components/CartModal";
 import { useState } from "react";
 import { ProductsProvider } from "./contexts/ProductContext";
 import { useCart } from "./contexts/CartContext";
+import { OrderProvider } from "./contexts/OrderContext";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -24,6 +25,7 @@ function App() {
         <CartModal open={cartOpen} setOpen={setCartOpen} />
 
         <ProductsProvider>
+          <OrderProvider>
             <Routes>
               <Route path='/catalog' >
                 <Route index element={<Catalog category='pizza' title='Италиански пици'/>}/>
@@ -40,6 +42,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<CartModal />} />
             </Routes>
+          </OrderProvider>
         </ProductsProvider>
 
         <Footer />
