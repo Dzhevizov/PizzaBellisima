@@ -3,10 +3,12 @@ import { useProducts } from "../contexts/ProductContext";
 import ProductForm from "../components/ProductForm";
 import useRequest from "../hooks/useRequest";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../contexts/AuthContext";
 
 export default function EditProduct() {
   const { id } = useParams();
-  const { products, loading } = useProducts();
+  const { products, loading, refreshProducts } = useProducts();
+  const { user } = useAuthContext();
   const { request } = useRequest();
   const navigate = useNavigate();
 
@@ -18,7 +20,8 @@ export default function EditProduct() {
 
   const handleUpdateProduct = async (updatedData) => {
     try {
-      await request(`/data/products/${id}`, "PUT", updatedData);
+      await request(`/data/products/${id}`, "PUT", updatedData, { accessToken: user?.accessToken });
+      await refreshProducts();
       navigate(`/catalog/${id}`);
     } catch (err) {
       alert("Грешка при редакция:", err);

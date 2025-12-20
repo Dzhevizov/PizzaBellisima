@@ -1,35 +1,31 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import useRequest from "../hooks/useRequest";
 
 const ProductsContext = createContext();
 
 export function ProductsProvider({ children }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { request } = useRequest();
 
-  useEffect(() => {
-    fetch("http://localhost:3030/data/products")
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Грешка при зареждане на продуктите");
-        }
-        return res.json();
-      })
-      .then(result => {
+    const fetchProducts = async () => {
+        setLoading(true);
+        const result = await request("/data/products");
         setProducts(result);
         setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+    };
 
-  return (
-    <ProductsContext.Provider value={{ products, loading, error }}>
-      {children}
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const refreshProducts = () => fetchProducts();
+
+    return (
+    <ProductsContext.Provider value={{ products, loading, refreshProducts }}>
+        {children}
     </ProductsContext.Provider>
-  );
+    );
 }
 
 export function useProducts() {

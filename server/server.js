@@ -1393,6 +1393,7 @@
             // --- Пица ---
             "prod-001": {
                 _id: "prod-001",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Маргарита",
                 category: CATEGORY.PIZZA,
                 price: 8.50,
@@ -1404,6 +1405,7 @@
             },
             "prod-002": {
                 _id: "prod-002",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Пеперони",
                 category: CATEGORY.PIZZA,
                 price: 9.90,
@@ -1415,6 +1417,7 @@
             },
             "prod-003": {
                 _id: "prod-003",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Капричоза",
                 category: CATEGORY.PIZZA,
                 price: 11.50,
@@ -1426,6 +1429,7 @@
             },
             "prod-004": {
                 _id: "prod-004",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Четири сирена",
                 category: CATEGORY.PIZZA,
                 price: 12.00,
@@ -1438,6 +1442,7 @@
             // --- Паста и ризото ---
             "prod-005": {
                 _id: "prod-005",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Паста Болонезе",
                 category: CATEGORY.PASTA,
                 price: 10.50,
@@ -1449,6 +1454,7 @@
             },
             "prod-006": {
                 _id: "prod-006",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Паста Карбонара",
                 category: CATEGORY.PASTA,
                 price: 11.00,
@@ -1460,6 +1466,7 @@
             },
             "prod-007": {
                 _id: "prod-007",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Ризото с гъби",
                 category: CATEGORY.RISOTTO,
                 price: 12.50,
@@ -1471,6 +1478,7 @@
             },
             "prod-008": {
                 _id: "prod-008",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Ризото с морски дарове",
                 category: CATEGORY.RISOTTO,
                 price: 14.00,
@@ -1484,6 +1492,7 @@
             // --- Десерти ---
             "prod-009": {
                 _id: "prod-009",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Тирамису",
                 category: CATEGORY.DESSERT,
                 price: 6.50,
@@ -1495,6 +1504,7 @@
             },
             "prod-010": {
                 _id: "prod-010",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Пана Кота",
                 category: CATEGORY.DESSERT,
                 price: 5.90,
@@ -1506,6 +1516,7 @@
             },
             "prod-011": {
                 _id: "prod-011",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Шоколадово суфле",
                 category: CATEGORY.DESSERT,
                 price: 7.20,
@@ -1519,6 +1530,7 @@
             // --- Напитки ---
             "prod-012": {
                 _id: "prod-012",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Кока Кола",
                 category: CATEGORY.DRINK,
                 price: 2.50,
@@ -1530,6 +1542,7 @@
             },
             "prod-013": {
                 _id: "prod-013",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Минерална вода",
                 category: CATEGORY.DRINK,
                 price: 1.50,
@@ -1541,6 +1554,7 @@
             },
             "prod-014": {
                 _id: "prod-014",
+                _ownerId: "a12bc345-d678-9012-ef34-56789ghijklm",
                 name: "Червено вино",
                 category: CATEGORY.DRINK,
                 price: 12.00,
