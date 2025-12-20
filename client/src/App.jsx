@@ -12,6 +12,8 @@ import { useState } from "react";
 import { ProductsProvider } from "./contexts/ProductContext";
 import { useCart } from "./contexts/CartContext";
 import { OrderProvider } from "./contexts/OrderContext";
+import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -41,6 +43,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<CartModal />} />
+              <Route path="/add-product" element={<AddProduct />} />
+              <Route path="/edit-product/:id" element={<EditProduct />} />
+
             </Routes>
           </OrderProvider>
         </ProductsProvider>

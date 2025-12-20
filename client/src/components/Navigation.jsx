@@ -6,7 +6,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
 
 export default function Navigation({ onCartClick, cartCount }) {
-    const { isAuthenticated, logoutHandler, user } = useAuthContext();
+    const { isAuthenticated, isAdmin, logoutHandler, user } = useAuthContext();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -16,7 +16,7 @@ export default function Navigation({ onCartClick, cartCount }) {
 
     const pages = [
     { name: "Каталог", to: "/catalog" },
-    ...(user?.role === "admin"
+    ...(isAdmin
       ? [{ name: "Дневни поръчки", to: "/orders" }]
       : isAuthenticated
       ? [{ name: "Моите поръчки", to: "/orders" }]

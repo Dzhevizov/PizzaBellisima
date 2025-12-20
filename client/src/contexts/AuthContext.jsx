@@ -42,6 +42,7 @@ export function UserProvider({ children }) {
   const userContextValues = {
     user,
     isAuthenticated: !!user?.accessToken,
+    isAdmin: user?.role === 'admin',
     registerHandler,
     loginHandler,
     logoutHandler,

@@ -2,7 +2,7 @@ export default function InfoSection() {
   return (
     <section
       className="relative bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/pizza-bg.jpg')" }}
+      style={{ backgroundImage: "url('/images/info-section.jpeg')" }}
     >
       {/* Overlay за четимост */}
       <div className="absolute inset-0 bg-black/50"></div>

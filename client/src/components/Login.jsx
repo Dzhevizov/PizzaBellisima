@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
     try {
         await loginHandler(email, password);
-        navigate("/catalog");
+        navigate("/");
     } catch {
         setError("Грешен имейл или парола");
     }
