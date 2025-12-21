@@ -13,10 +13,25 @@ export function UserProvider({ children }) {
 
   const registerHandler = async (username, password, extraData) => {
     try {
-      const result = await request("/users/register", "POST", { email: extraData.email, password, username });
+      const payload = {
+        email: extraData.email,
+        password,
+        username,
+        firstName: extraData.firstName,
+        lastName: extraData.lastName,
+        address: extraData.address,
+        city: extraData.city,
+        phone: extraData.phone,
+        notes: extraData.notes || "",
+        registryDate: new Date().toISOString().split("T")[0],
+        role: "client"
+      };
+
+      const result = await request("/users/register", "POST", payload);
 
       setUser(result);
       localStorage.setItem("user", JSON.stringify(result));
+
     } catch (err) {
       if (err === "Conflict") {
         alert("Имейлът вече е регистриран!");
