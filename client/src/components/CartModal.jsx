@@ -15,10 +15,22 @@ export default function CartModal({ open, setOpen }) {
   const { refreshOrders } = useOrders();
   const navigate = useNavigate();
 
+  const now = new Date();
+  const promoEnd = new Date("2025-12-31");
+  const isPromoActive = now < promoEnd;
+
   const subtotal = cart.reduce((sum, p) => sum + p.price * p.quantity, 0);
   const discounts = cart.reduce((sum, p) => {
-    const discountAmount = (p.discount || 0) / 100 * p.price * p.quantity;
-    return sum + discountAmount;
+    // стандартна отстъпка
+    const baseDiscount = (p.discount || 0) / 100 * p.price * p.quantity;
+
+    // допълнителна 20% празнична отстъпка
+    const extraDiscount =
+      isPromoActive
+        ? 0.20 * p.price * p.quantity
+        : 0;
+
+    return sum + baseDiscount + extraDiscount;
   }, 0);
 
   const totalAfterDiscounts = subtotal - discounts;

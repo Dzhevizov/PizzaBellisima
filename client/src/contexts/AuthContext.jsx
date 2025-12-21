@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import useRequest from "../hooks/useRequest";
+import { useCart } from "../contexts/CartContext";
 
 export const AuthContext = createContext();
 
@@ -8,6 +9,8 @@ export function UserProvider({ children }) {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+
+  const { clearCart } = useCart();
 
   const { request } = useRequest();
 
@@ -49,6 +52,7 @@ export function UserProvider({ children }) {
 
   const logoutHandler = async () => {
     await request("/users/logout", "GET", null, { accessToken: user?.accessToken });
+    clearCart();
     setUser(null);
     localStorage.removeItem("user");
   };

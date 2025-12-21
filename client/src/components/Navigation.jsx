@@ -1,5 +1,5 @@
 import { PopoverGroup } from '@headlessui/react'
-import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { ShoppingBagIcon } from '@heroicons/react/24/outline'
 import logo from "./../assets/logo/pizza-bellisima-logo.png"
 import { Link } from 'react-router'
 import { useAuthContext } from "../contexts/AuthContext";

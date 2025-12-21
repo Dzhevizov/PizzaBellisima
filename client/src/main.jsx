@@ -5,9 +5,10 @@ import { UserProvider } from './contexts/AuthContext.jsx'
 import { CartProvider } from './contexts/CartContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <UserProvider>
+  
     <CartProvider>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </CartProvider>
-  </UserProvider>
 )
