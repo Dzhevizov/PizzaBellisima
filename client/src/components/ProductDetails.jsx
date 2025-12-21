@@ -6,17 +6,20 @@ import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
+import useRequest from "../hooks/useRequest";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 export default function ProductDetails() {
     const { id } = useParams();
-    const { products, loading, error } = useProducts();
+    const { products, loading, refreshProducts  } = useProducts();
     const [quantity, setQuantity] = useState(1);
-    const { isAuthenticated, isAdmin } = useAuthContext();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { isAuthenticated, isAdmin, user } = useAuthContext();
     const { addToCart } = useCart();
+    const { request } = useRequest();
     const navigate = useNavigate();
 
     if (loading) return <p>Зареждане...</p>;
-    if (error) return <p className="text-red-600">{error}</p>;
 
     const product = products.find((p) => p._id === id);
 
@@ -31,21 +34,35 @@ export default function ProductDetails() {
     };
 
     const handleAdd = () => {
-  addToCart({
-    id: product._id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    quantity, 
-    discount: product.discount || 0,
-    image: product.image,
-    imageAlt: product.imageAlt,
-  });
-};
+    addToCart({
+        id: product._id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        quantity, 
+        discount: product.discount || 0,
+        image: product.image,
+        imageAlt: product.imageAlt,
+        });
+    };
+
+    const handleDelete = async () => {
+    try {
+      await request(`/data/products/${id}`, "DELETE", null, {
+        accessToken: user?.accessToken,
+      });
+
+      await refreshProducts(); 
+
+      navigate("/catalog");
+    } catch (err) {
+      alert("Грешка при изтриване:", err);
+    }
+  };
 
 
     return (
-    <div className="bg-white">
+    <div className="bg-white relative">
         <div className="mx-auto max-w-6xl px-6 py-12 lg:grid lg:grid-cols-2 lg:gap-12">
         
         <div className="relative">
@@ -97,11 +114,17 @@ export default function ProductDetails() {
                     </button>
 
                     <button
-                    onClick={() => deleteProduct(product._id)}
-                    className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-red-500"
+                        onClick={() => setShowDeleteModal(true)}
+                        className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-red-500"
                     >
-                    Изтрий
+                        Изтрий
                     </button>
+
+                    <ConfirmDeleteModal
+                        open={showDeleteModal}
+                        onCancel={() => setShowDeleteModal(false)}
+                        onConfirm={handleDelete}
+                    />
                 </div>
             )}
             

@@ -13,7 +13,6 @@ export function UserProvider({ children }) {
 
   const registerHandler = async (username, password, extraData) => {
     try {
-      // Регистрация – само в /users/register
       const result = await request("/users/register", "POST", { email: extraData.email, password, username });
 
       setUser(result);
