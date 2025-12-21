@@ -17,6 +17,7 @@ import EditProduct from "./components/EditProduct";
 import ProtectedRoute from "./guards/ProtectedRoute";
 import AdminRoute from "./guards/AdminRoute";
 import Forbidden from "./components/Forbidden";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -79,6 +80,9 @@ function App() {
 
             {/* 403 */}
             <Route path="/403" element={<Forbidden />} />
+
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
 
           </Routes>
 
