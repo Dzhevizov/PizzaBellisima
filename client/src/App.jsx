@@ -24,10 +24,12 @@ function App() {
     <>
       <BrowserRouter>
         <Navigation onCartClick={() => setCartOpen(true)} cartCount={cart.length}/>
-        <CartModal open={cartOpen} setOpen={setCartOpen} />
-
+        
         <ProductsProvider>
           <OrderProvider>
+
+            <CartModal open={cartOpen} setOpen={setCartOpen} />
+
             <Routes>
               <Route path='/catalog' >
                 <Route index element={<Catalog category='pizza' title='Италиански пици'/>}/>

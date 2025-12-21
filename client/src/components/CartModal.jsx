@@ -3,6 +3,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useAuthContext } from "../contexts/AuthContext";
 import useRequest from "../hooks/useRequest";
 import { useCart } from "../contexts/CartContext";
+import { useOrders } from "../contexts/OrderContext";
+import { useNavigate } from "react-router";
 
 const LEV_TO_EUR = 1.95583;
 
@@ -10,6 +12,8 @@ export default function CartModal({ open, setOpen }) {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
 
   const { request } = useRequest();
+  const { refreshOrders } = useOrders();
+  const navigate = useNavigate();
 
   const subtotal = cart.reduce((sum, p) => sum + p.price * p.quantity, 0);
   const discounts = cart.reduce((sum, p) => {
@@ -37,7 +41,7 @@ export default function CartModal({ open, setOpen }) {
     if(cart.length == 0) {
       return;
     }
-    
+
     const order = {
       items: cart.map(p => ({
         name: p.name,
@@ -56,6 +60,9 @@ export default function CartModal({ open, setOpen }) {
 
     alert("Поръчката е създадена!");
     clearCart();
+    refreshOrders();
+    navigate(`/orders`);
+    
   };
 
   return (
