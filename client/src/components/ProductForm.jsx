@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function ProductForm({ product = {}, onSubmit }) {
     const [name, setName] = useState(product.name || "");
-    const [category, setCategory] = useState(product.category || "PIZZA");
+    const [category, setCategory] = useState(product.category || "pizza");
     const [price, setPrice] = useState(product.price || 0);
     const [discount, setDiscount] = useState(product.discount || 0);
     const [size, setSize] = useState(product.size || "");
@@ -52,9 +52,11 @@ export default function ProductForm({ product = {}, onSubmit }) {
             onChange={(e) => setCategory(e.target.value)}
             className="mt-1 w-full rounded-md border-gray-300 shadow-sm"
         >
-            <option value="PIZZA">Пица</option>
-            <option value="DESSERT">Десерт</option>
-            <option value="DRINK">Напитка</option>
+            <option value="pizza">Пица</option>
+            <option value="pasta">Паста</option>
+            <option value="risotto">Ризото</option>
+            <option value="dessert">Десерт</option>
+            <option value="drink">Напитка</option>
         </select>
         </div>
 
